@@ -17,7 +17,7 @@ import model.UserDTO;
 
 /**
  *
- * @author ACER
+ * @author LENOVO
  */
 public class LoginController extends HttpServlet {
 
@@ -32,36 +32,36 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String url = "login.jsp";
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        String url = "";
         HttpSession session = request.getSession();
+        if (session.getAttribute("user") == null) {
+            String txtUsername = request.getParameter("txtUsername");
+            String txtPassword = request.getParameter("txtPassword");
 
-        String username = request.getParameter("txtUsername");
-        String password = request.getParameter("txtPassword");
-
-        // Bat buoc nhap!!
-        if (username == null || username.trim().isEmpty()
-                || password == null || password.trim().isEmpty()) {
-
-            request.setAttribute("message", "Phai nhap username va password");
-        } else {
-
-            UserDAO dao = new UserDAO();
-            UserDTO user = dao.login(username, password);
-
+            UserDAO udao = new UserDAO();
+            UserDTO user = udao.login(txtUsername, txtPassword);
+            System.out.println(user);
             if (user != null) {
-                if (!user.isStatus()) {    
-                    url = "E403.jsp";
-                } else {                     
+                if (user.isStatus()) {
+                    url = "welcome.jsp";
                     session.setAttribute("user", user);
-                    url = "dashboard.jsp";
+                } else {
+                    url = "e403.jsp";
                 }
             } else {
-                request.setAttribute("message", "Sai username hoặc password");
+                url = "login.jsp";
+                request.setAttribute("message", "Invalid username or password!");
             }
-        }
 
-        request.getRequestDispatcher(url).forward(request, response);
+        } else {
+            url = "welcome.jsp";
+        }
+        // Chuyen trang
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

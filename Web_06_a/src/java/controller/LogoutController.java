@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author ACER
+ * @author tungi
  */
 public class LogoutController extends HttpServlet {
 
@@ -29,13 +29,15 @@ public class LogoutController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         if(session.getAttribute("user")!=null){
-            session.invalidate(); // huy bo moi thu trong session;
+            // huy bo toan bo noi dung session
+            session.invalidate();
         }
-        String url = "MainController";
+        String url = "login.jsp";
         response.sendRedirect(url);
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,6 +78,5 @@ public class LogoutController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    
+
 }

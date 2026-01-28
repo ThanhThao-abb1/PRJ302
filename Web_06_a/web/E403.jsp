@@ -12,8 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>403 - Access Denied</h1>
-        <p>Tai khoan cua ban da bi khoa (status = 0).</p>
-        <a href="login.jsp">Back to login</a>
+        <h1>403 - Access Denied! </h1>
     </body>
 </html>
